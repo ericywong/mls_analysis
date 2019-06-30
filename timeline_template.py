@@ -109,4 +109,27 @@ bar_df = pd.read_csv(
 
 parsed_bar_df = df[df.ANT_SOLD_DATE.notnull()].dropna().sort_values(by='ANT_SOLD_DATE')
 
-print(parsed_bar_df)
+# print(parsed_bar_df)
+mf_sqft_btw_2301_2600_df = parsed_bar_df.loc[
+    (parsed_bar_df['SQUARE_FEET'] >= 2301) &
+    (parsed_bar_df['SQUARE_FEET'] <= 2600)]
+print(mf_sqft_btw_2301_2600_df)
+avg_price_per_sqft_by_date = mf_sqft_btw_2301_2600_df.groupby(['ANT_SOLD_DATE']).mean().drop(['SQUARE_FEET'], axis=1)
+print(avg_price_per_sqft_by_date)
+avg_price_per_sqft_by_date.plot.line(subplots=False, title='Average Price/Sqft Somerville MF 2301-2600sqft')
+plt.show()
+
+# speed = [0.1, 17.5, 40, 48, 52, 69, 88]
+# lifespan = [2, 8, 70, 1.5, 25, 12, 28]
+# index = [
+#          'snail', 'pig', 'elephant',
+#          'rabbit', 'giraffe', 'coyote', 'horse'
+#         ]
+# print(mf_sqft_btw_2301_2600['SOLD_PRICE_PER_SQFT'])
+# print(mf_sqft_btw_2301_2600['ANT_SOLD_DATE'])
+# df = pd.DataFrame(
+#     {'PRICE_PER_SQFT': mf_sqft_btw_2301_2600['SOLD_PRICE_PER_SQFT']},
+#     index=mf_sqft_btw_2301_2600['ANT_SOLD_DATE'])
+# df.plot.bar(rot=0)
+# plt.show()
+
