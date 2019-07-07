@@ -12,4 +12,23 @@ all_files = glob.glob(os.path.join(path, '*.csv'))
 df_from_each_file = (pd.read_csv(f) for f in all_files)
 concatenated_df = pd.concat(df_from_each_file, ignore_index=True)
 
-print(concatenated_df)
+# print(concatenated_df)
+
+# Select all duplicate rows based on one column
+parsed_df = concatenated_df[concatenated_df.Owner1.notnull()]
+duplicateRowsDF = parsed_df[parsed_df.duplicated(['Owner1'])]
+print(
+    "Duplicate Rows based on a single column are:",
+    duplicateRowsDF[
+        [
+            'Address',
+            'Building Value',
+            'City',
+            'Owner1',
+            'Owner2',
+            'Year Built',
+            'Zip'
+        ]
+    ].sort_values(by='Owner1'),
+    sep='\n'
+)
