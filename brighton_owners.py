@@ -32,3 +32,16 @@ print(
     ].sort_values(by='Owner1'),
     sep='\n'
 )
+
+duplicateRowsDF[
+    [
+        'Address',
+        'Building Value',
+        'City',
+        'Owner1',
+        'Owner2',
+        'Year Built',
+        'Zip'
+    ]
+].to_csv('owners_with_multiple_properties_brighton.csv')
+print('csv created from result')
