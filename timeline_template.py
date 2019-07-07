@@ -67,14 +67,14 @@ sqft_categories = [
         "2001-2300 sqft",
         "2301-2600 sqft",
         "2601-2900 sqft",
-        "2901-3100 sqft",
-        "3101-3400 sqft",
-        "3401+ sqft"
+        "2901-3200 sqft",
+        "3201-3500 sqft",
+        "3501+ sqft"
     ]
 
 parsed_df['bins'] = pd.cut(
     parsed_df['SQUARE_FEET'],
-    bins=[0, 1001, 1501, 2001, 2301, 2601, 2901, 3101, 3401, 10000],
+    bins=[0, 1001, 1501, 2001, 2301, 2601, 2901, 3201, 3501, 10000],
     labels=sqft_categories
 )
 parsed_df = parsed_df.groupby(['bins']).size()
@@ -100,36 +100,42 @@ plt.title('Somerville MF sold 4-2017 - 4-2019 by sqft')
 
 # Search for multifamilies with 2301-2600 sqft
 
-bar_df = pd.read_csv(
+line_df = pd.read_csv(
     DATA_ROOT_DIR + '/Somerville/somerville_mf_4_2017_4_2019_somerville_mf_24_months_042019.csv',
     usecols=fields,
     dtype={'ANT_SOLD_DATE': 'str', 'SQUARE_FEET': 'float', 'SOLD_PRICE_PER_SQFT': 'float'},
     parse_dates=['ANT_SOLD_DATE']
     )
 
-parsed_bar_df = df[df.ANT_SOLD_DATE.notnull()].dropna().sort_values(by='ANT_SOLD_DATE')
+parsed_line_df = df[df.ANT_SOLD_DATE.notnull()].dropna().sort_values(by='ANT_SOLD_DATE')
 
 # print(parsed_bar_df)
-mf_sqft_btw_2301_2600_df = parsed_bar_df.loc[
-    (parsed_bar_df['SQUARE_FEET'] >= 2301) &
-    (parsed_bar_df['SQUARE_FEET'] <= 2600)]
+mf_sqft_btw_2301_2600_df = parsed_line_df.loc[
+    (parsed_line_df['SQUARE_FEET'] >= 2301) &
+    (parsed_line_df['SQUARE_FEET'] <= 2600)]
 print(mf_sqft_btw_2301_2600_df)
 avg_price_per_sqft_by_date = mf_sqft_btw_2301_2600_df.groupby(['ANT_SOLD_DATE']).mean().drop(['SQUARE_FEET'], axis=1)
 print(avg_price_per_sqft_by_date)
 avg_price_per_sqft_by_date.plot.line(subplots=False, title='Average Price/Sqft Somerville MF 2301-2600sqft')
 plt.show()
 
-# speed = [0.1, 17.5, 40, 48, 52, 69, 88]
-# lifespan = [2, 8, 70, 1.5, 25, 12, 28]
-# index = [
-#          'snail', 'pig', 'elephant',
-#          'rabbit', 'giraffe', 'coyote', 'horse'
-#         ]
-# print(mf_sqft_btw_2301_2600['SOLD_PRICE_PER_SQFT'])
-# print(mf_sqft_btw_2301_2600['ANT_SOLD_DATE'])
-# df = pd.DataFrame(
-#     {'PRICE_PER_SQFT': mf_sqft_btw_2301_2600['SOLD_PRICE_PER_SQFT']},
-#     index=mf_sqft_btw_2301_2600['ANT_SOLD_DATE'])
-# df.plot.bar(rot=0)
-# plt.show()
+# Search for multifamilies with 2301-2600 sqft
 
+# bar_df = pd.read_csv(
+#     DATA_ROOT_DIR + '/Somerville/somerville_mf_4_2017_4_2019_somerville_mf_24_months_042019.csv',
+#     usecols=fields,
+#     dtype={'ANT_SOLD_DATE': 'str', 'SQUARE_FEET': 'float', 'SOLD_PRICE_PER_SQFT': 'float'},
+#     parse_dates=['ANT_SOLD_DATE']
+#     )
+#
+# parsed_bar_df = df[df.ANT_SOLD_DATE.notnull()].dropna().sort_values(by='ANT_SOLD_DATE')
+#
+# # print(parsed_bar_df)
+# mf_sqft_btw_2301_2600_df = parsed_bar_df.loc[
+#     (parsed_bar_df['SQUARE_FEET'] >= 2301) &
+#     (parsed_bar_df['SQUARE_FEET'] <= 2600)]
+# print(mf_sqft_btw_2301_2600_df)
+# avg_price_per_sqft_by_date = mf_sqft_btw_2301_2600_df.groupby(['ANT_SOLD_DATE']).mean().drop(['SQUARE_FEET'], axis=1)
+# print(avg_price_per_sqft_by_date)
+# avg_price_per_sqft_by_date.plot.line(subplots=False, title='Average Price/Sqft Somerville MF 2301-2600sqft')
+# plt.show()
